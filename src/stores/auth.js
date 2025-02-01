@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { ref } from 'vue'
 
-const apiKey = 'AIzaSyCLXYbwDgRFqgXMA2Mw-25ZKFpyJmkTBgw'
+const apiKey = import.meta.env.VITE_FIREBASE_API_KEY
 
 export const useAuthStore = defineStore('auth', () => {
   const userData = {
@@ -17,13 +17,15 @@ export const useAuthStore = defineStore('auth', () => {
   const loader = ref(false)
 
   const auth = async (payload, type) => {
-    const sign = type
+    const authType = type === 'signIn' ? 'signInWithPassword' : 'signUp'
+    const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:${authType}?key=${apiKey}`
+
     errorMsg.value = ''
     loader.value = true
-    const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:${sign}?key=${apiKey}`
+
     try {
       const res = await axios.post(endpoint, { ...payload, returnSecureToken: true })
-
+      console.log(res.data)
       userData.value = {
         token: res.data.idToken,
         email: res.data.email,
@@ -32,7 +34,9 @@ export const useAuthStore = defineStore('auth', () => {
         userId: res.data.localId,
       }
     } catch (error) {
+      console.log(error)
       errorMsg.value = getErrorMsg(error.response.data.error.message)
+      throw errorMsg.value
     } finally {
       loader.value = false
     }
@@ -44,13 +48,19 @@ function getErrorMsg(err) {
   switch (err) {
     case 'EMAIL_EXISTS':
       return 'Адрес электронной почты уже используется другой учетной записью.'
-    case 'OPERATION_NOT_ALLOWED':
-      return 'Анонимный вход пользователя в этот проект отключен.'
     case 'EMAIL_NOT_FOUND':
       return 'Нет записи пользователя, соответствующей этому идентификатору. Возможно, пользователь был удален.'
+    case 'INVALID_EMAIL':
+      return 'Неправильный адрес электронной почты.'
     case 'INVALID_PASSWORD':
       return 'Пароль неверен или у пользователя нет пароля.'
+    case 'MISSING_PASSWORD':
+      return 'Введите пароль.'
+    case 'MISSING_EMAIL':
+      return 'Введите адрес электронной почты.'
+    case 'INVALID_LOGIN_CREDENTIALS':
+      return 'Неправильный пароль или почта.'
     default:
-      return 'Произошла ошибка. Возможно данные заполнены некорректно.'
+      return 'Произошла какая-то херня. Повторите попытку позже.'
   }
 }

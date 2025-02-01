@@ -1,5 +1,4 @@
 <script setup>
-import SignUp from './views/SignUp.vue'
 import { RouterView } from 'vue-router'
 </script>
 
@@ -7,7 +6,6 @@ import { RouterView } from 'vue-router'
   <header></header>
   <main>
     <div class="container">
-      <SignUp />
       <RouterView />
     </div>
   </main>

@@ -2,13 +2,16 @@
 import { ref } from 'vue'
 import AppLoader from '../components/AppLoader.vue'
 import { useAuthStore } from './../stores/auth'
+import { useRouter } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
 const authStore = useAuthStore()
+const router = useRouter()
 
 const signUp = async () => {
   await authStore.auth({ email: email.value, password: password.value }, 'signUp')
+  router.push('/catalog')
 }
 </script>
 
@@ -32,9 +35,9 @@ const signUp = async () => {
       <AppLoader v-if="authStore.loader" />
       <div class="flex-col">
         <Button label="Регистрироваться" @click="signUp" />
-        <span>
-          Вы уже зарегистрированы?
-          <router-link to="/signin">Регистрироваться</router-link>
+        <span class="subtext">
+          Уже зарегистрированы?
+          <router-link to="/signin">Авторизация</router-link>
         </span>
       </div>
     </form>
@@ -64,5 +67,14 @@ const signUp = async () => {
   width: 100%;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+.subtext {
+  font-size: 14px;
+  opacity: 0.7;
+  transition: opacity 0.25s ease;
+}
+
+.subtext:hover {
+  opacity: 1;
 }
 </style>

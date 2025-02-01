@@ -1,5 +1,5 @@
 <script setup></script>
 
 <template>
-  <main></main>
+  <h1>Главная страница</h1>
 </template>
