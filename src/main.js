@@ -34,6 +34,7 @@ app.use(PrimeVue, {
     preset: Aura,
   },
 })
+
 components.forEach(({ name, component }) => {
   app.component(name, component)
 })

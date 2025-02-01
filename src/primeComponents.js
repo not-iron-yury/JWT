@@ -1,11 +1,13 @@
-import InputText from 'primevue/inputtext';
-import Button from 'primevue/button';
-import Menubar from 'primevue/menubar';
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
+import Message from 'primevue/message'
+import ProgressSpinner from 'primevue/progressspinner'
 
 const components = [
-  { name: 'app-button', component: Button },
-  { name: 'app-input-text', component: InputText },
-  { name: 'app-menu-bar', component: Menubar },
-];
+  { name: 'Button', component: Button },
+  { name: 'InputText', component: InputText },
+  { name: 'Message', component: Message },
+  { name: 'ProgressSpinner', component: ProgressSpinner },
+]
 
-export default components;
+export default components
