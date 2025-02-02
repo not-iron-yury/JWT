@@ -45,12 +45,6 @@ const signIn = async () => {
 </template>
 
 <style scoped>
-.flex-col {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-}
 .input-row {
   display: flex;
 }

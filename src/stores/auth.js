@@ -5,13 +5,13 @@ import { ref } from 'vue'
 const apiKey = import.meta.env.VITE_FIREBASE_API_KEY
 
 export const useAuthStore = defineStore('auth', () => {
-  const userData = {
+  const userData = ref({
     token: '',
     email: '',
     refreshToken: '',
     expiresIn: '', // время истечения access token
     userId: '',
-  }
+  })
 
   const errorMsg = ref('')
   const loader = ref(false)
@@ -25,7 +25,6 @@ export const useAuthStore = defineStore('auth', () => {
 
     try {
       const res = await axios.post(endpoint, { ...payload, returnSecureToken: true })
-      console.log(res.data)
       userData.value = {
         token: res.data.idToken,
         email: res.data.email,
