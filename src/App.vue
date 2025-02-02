@@ -1,5 +1,5 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView, RouterLink } from 'vue-router'
 import { useAuthStore } from './stores/auth'
 import { onMounted } from 'vue'
 
@@ -20,7 +20,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <header></header>
+  <header>
+    <div class="container">
+      <nav class="menu">
+        <router-link to="/">Главная</router-link>
+        <router-link to="/catalog">Каталог</router-link>
+        <router-link to="/signin">Вход</router-link>
+      </nav>
+    </div>
+  </header>
   <main>
     <div class="container">
       <RouterView />
@@ -39,13 +47,7 @@ onMounted(() => {
 .menu {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
-  font-size: 20px;
-}
-
-.menu__link {
-  color: #000;
-  margin: 0 20px;
-  font-family: 'Arial', sans-serif;
+  gap: 40px;
+  font-size: 18px;
 }
 </style>
