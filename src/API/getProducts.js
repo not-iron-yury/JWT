@@ -1,11 +1,11 @@
 import axios from 'axios'
+import './interceptor'
 
-const getProducts = async (token) => {
+const getProducts = async () => {
   try {
     const res = await axios.get(
-      `https://vue-jwt-d524c-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=${token}`,
+      `https://vue-jwt-d524c-default-rtdb.europe-west1.firebasedatabase.app/products.json`,
     )
-    console.log(res.data)
     return res.data
   } catch (err) {
     console.log(err)

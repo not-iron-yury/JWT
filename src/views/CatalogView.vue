@@ -1,16 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useAuthStore } from '@/stores/auth'
 import AppLoader from '@/components/AppLoader.vue'
 import getProducts from './../API/getProducts'
 
-const authStore = useAuthStore()
 const showLoader = ref(false)
 const products = ref({})
 
 onMounted(async () => {
   showLoader.value = true
-  products.value = await getProducts(authStore.userData.token)
+  products.value = await getProducts()
   showLoader.value = false
 })
 </script>
