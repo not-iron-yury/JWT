@@ -1,9 +1,11 @@
 <script setup>
 import { RouterView, RouterLink } from 'vue-router'
 import { useAuthStore } from './stores/auth'
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import router from './router/index'
 
 const authStore = useAuthStore()
+const showCatalog = computed(() => authStore.userData.token)
 
 const userValidate = () => {
   const userTokens = JSON.parse(localStorage.getItem('userTokens'))
@@ -12,6 +14,16 @@ const userValidate = () => {
     authStore.userData.refreshToken = userTokens.refreshToken
     authStore.userData.expiresIn = userTokens.expiresIn
   }
+}
+
+const logout = () => {
+  authStore.userData.token = ''
+  authStore.userData.refreshToken = ''
+  authStore.userData.expiresIn = ''
+
+  localStorage.removeItem('userTokens')
+
+  router.push('/signin')
 }
 
 onMounted(() => {
@@ -24,8 +36,9 @@ onMounted(() => {
     <div class="container">
       <nav class="menu">
         <router-link to="/">Главная</router-link>
-        <router-link to="/catalog">Каталог</router-link>
-        <router-link to="/signin">Вход</router-link>
+        <router-link to="/catalog" v-if="showCatalog">Каталог</router-link>
+        <router-link to="" v-if="showCatalog" @click="logout">Выход</router-link>
+        <router-link to="/signin" v-if="!showCatalog">Вход</router-link>
       </nav>
     </div>
   </header>
