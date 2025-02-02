@@ -25,6 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     try {
       const res = await axios.post(endpoint, { ...payload, returnSecureToken: true })
+
       userData.value = {
         token: res.data.idToken,
         email: res.data.email,
@@ -32,6 +33,15 @@ export const useAuthStore = defineStore('auth', () => {
         expiresIn: res.data.expiresIn,
         userId: res.data.localId,
       }
+
+      localStorage.setItem(
+        'userTokens',
+        JSON.stringify({
+          token: res.data.idToken,
+          refreshToken: res.data.refreshToken,
+          expiresIn: res.data.expiresIn,
+        }),
+      )
     } catch (error) {
       console.log(error)
       errorMsg.value = getErrorMsg(error.response.data.error.message)

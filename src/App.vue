@@ -1,5 +1,22 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import { useAuthStore } from './stores/auth'
+import { onMounted } from 'vue'
+
+const authStore = useAuthStore()
+
+const userValidate = () => {
+  const userTokens = JSON.parse(localStorage.getItem('userTokens'))
+  if (userTokens) {
+    authStore.userData.token = userTokens.token
+    authStore.userData.refreshToken = userTokens.refreshToken
+    authStore.userData.expiresIn = userTokens.expiresIn
+  }
+}
+
+onMounted(() => {
+  userValidate()
+})
 </script>
 
 <template>
