@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
 import { ref } from 'vue'
+import axiosApiInstance from '../API/interceptors'
+import { setItemToLocalStorage } from '../functions/localStorage'
 
 const apiKey = import.meta.env.VITE_FIREBASE_API_KEY
 
@@ -24,7 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
     loader.value = true
 
     try {
-      const res = await axios.post(endpoint, { ...payload, returnSecureToken: true })
+      const res = await axiosApiInstance.post(endpoint, { ...payload, returnSecureToken: true })
 
       userData.value = {
         token: res.data.idToken,
@@ -34,14 +35,11 @@ export const useAuthStore = defineStore('auth', () => {
         userId: res.data.localId,
       }
 
-      localStorage.setItem(
-        'userTokens',
-        JSON.stringify({
-          token: res.data.idToken,
-          refreshToken: res.data.refreshToken,
-          expiresIn: res.data.expiresIn,
-        }),
-      )
+      setItemToLocalStorage('userTokens', {
+        token: res.data.idToken,
+        refreshToken: res.data.refreshToken,
+        expiresIn: res.data.expiresIn,
+      })
     } catch (error) {
       console.log(error)
       errorMsg.value = getErrorMsg(error.response.data.error.message)

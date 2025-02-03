@@ -3,12 +3,13 @@ import { RouterView, RouterLink } from 'vue-router'
 import { useAuthStore } from './stores/auth'
 import { computed, onMounted } from 'vue'
 import router from './router/index'
+import { getItemFromLocalStorage, removeItemFromLocalStorage } from './functions/localStorage'
 
 const authStore = useAuthStore()
 const showCatalog = computed(() => authStore.userData.token)
 
 const userValidate = () => {
-  const userTokens = JSON.parse(localStorage.getItem('userTokens'))
+  const userTokens = getItemFromLocalStorage('userTokens')
   if (userTokens) {
     authStore.userData.token = userTokens.token
     authStore.userData.refreshToken = userTokens.refreshToken
@@ -21,7 +22,7 @@ const logout = () => {
   authStore.userData.refreshToken = ''
   authStore.userData.expiresIn = ''
 
-  localStorage.removeItem('userTokens')
+  removeItemFromLocalStorage('userTokens')
 
   router.push('/signin')
 }

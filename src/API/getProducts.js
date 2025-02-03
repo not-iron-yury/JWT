@@ -1,9 +1,9 @@
-import axios from 'axios'
-import './interceptor'
+import axiosApiInstance from './interceptors'
+import './interceptors'
 
 const getProducts = async () => {
   try {
-    const res = await axios.get(
+    const res = await axiosApiInstance.get(
       `https://vue-jwt-d524c-default-rtdb.europe-west1.firebasedatabase.app/products.json`,
     )
     return res.data
