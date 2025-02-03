@@ -37,6 +37,7 @@ onMounted(async () => {
 }
 .card-img {
   max-width: 468px;
+  width: 100%;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 }

@@ -35,10 +35,22 @@ onMounted(() => {
   <header>
     <div class="container">
       <nav class="menu">
-        <router-link to="/">Главная</router-link>
-        <router-link to="/catalog" v-if="showCatalog">Каталог</router-link>
-        <router-link to="" v-if="showCatalog" @click="logout">Выход</router-link>
-        <router-link to="/signin" v-if="!showCatalog">Вход</router-link>
+        <router-link class="menu__link" to="/">
+          <i class="pi pi-home menu__icon"></i>
+          Главная
+        </router-link>
+        <router-link class="menu__link" to="/catalog" v-if="showCatalog">
+          <i class="pi pi-folder menu__icon"></i>
+          Каталог
+        </router-link>
+        <router-link class="menu__link" to="" v-if="showCatalog" @click="logout">
+          <i class="pi pi-sign-out menu__icon"></i>
+          Выход
+        </router-link>
+        <router-link class="menu__link" to="/signin" v-if="!showCatalog">
+          <i class="pi pi-sign-in menu__icon"></i>
+          Вход
+        </router-link>
       </nav>
     </div>
   </header>
@@ -59,8 +71,16 @@ onMounted(() => {
 }
 .menu {
   display: flex;
-  justify-content: center;
-  gap: 40px;
-  font-size: 18px;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 16px;
+}
+.menu__link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.menu__icon {
+  padding-bottom: 3px;
 }
 </style>
