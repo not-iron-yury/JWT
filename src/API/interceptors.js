@@ -1,6 +1,11 @@
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth'
-import { getItemFromLocalStorage, setItemToLocalStorage } from '../functions/localStorage'
+import {
+  getItemFromLocalStorage,
+  setItemToLocalStorage,
+  removeItemFromLocalStorage,
+} from '../functions/localStorage'
+import router from '@/router'
 
 const apiKey = import.meta.env.VITE_FIREBASE_API_KEY
 const axiosApiInstance = axios.create()
@@ -46,7 +51,11 @@ axiosApiInstance.interceptors.response.use(
           refreshToken: newTokens.data.refresh_token,
         })
       } catch (err) {
-        console.log(err)
+        console.error(err)
+        removeItemFromLocalStorage('userTokens')
+        router.push('/signin')
+        authStore.userData.token = ''
+        authStore.userData.refreshToken = ''
       }
     }
   },
